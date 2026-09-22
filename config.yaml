@@ -1,0 +1,34 @@
+check_interval: 300
+
+log_file: ./git_watcher.log
+log_level: INFO
+
+# Démonisation Unix classique (utilisé seulement en mode --daemon)
+pidfile: /var/run/git_watcher.pid
+
+# Notifications optionnelles (exemple webhook)
+notifications:
+  enabled: false
+  webhook_url: ""
+
+repositories:
+  - name: mon-projet
+    path: /home/user/projects/mon-projet
+    remote: origin
+    branch: main
+    auto_pull: true # active le pull automatique si "behind"
+    require_clean: true # ne pull que si le working tree est propre
+
+  - name: autre-projet
+    path: /home/user/projects/autre-projet
+    remote: origin
+    branch: master
+    auto_pull: false # juste de la surveillance, pas de pull auto
+
+  - name: projet-strict
+    path: /home/user/projects/projet-strict
+    remote: origin
+    branch: develop
+    auto_pull: true
+    require_clean: true
+    allow_diverged_pull: false # refuse de toucher si diverged (évite conflit)
