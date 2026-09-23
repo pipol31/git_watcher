@@ -246,9 +246,11 @@ class GitWatcherDaemon:
         log_file = self.config.get("log_file")
         log_level = self.config.get("log_level", "INFO").upper()
 
-        handlers = [logging.StreamHandler(sys.stdout)]
+        handlers = []
         if log_file:
             handlers.append(logging.FileHandler(log_file))
+        else:
+            handlers.append(logging.StreamHandler(sys.stdout))
 
         logging.basicConfig(
             level=getattr(logging, log_level, logging.INFO),
@@ -370,12 +372,7 @@ def main():
         sys.exit(0)
 
     if args.daemon:
-        log_file = raw_config.get("log_file", "/tmp/git_watcher.log")
-        daemonizer = Daemonizer(
-            pidfile=pidfile,
-            stdout=log_file,
-            stderr=log_file,
-        )
+        daemonizer = Daemonizer(pidfile=pidfile)  # stdout/stderr = /dev/null par défaut
 
         existing_pid = daemonizer.get_running_pid()
         if existing_pid:

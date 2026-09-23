@@ -4,7 +4,7 @@ log_file: ./git_watcher.log
 log_level: INFO
 
 # Démonisation Unix classique (utilisé seulement en mode --daemon)
-pidfile: /var/run/git_watcher.pid
+pidfile: ./git_watcher.pid
 
 # Notifications optionnelles (exemple webhook)
 notifications:
