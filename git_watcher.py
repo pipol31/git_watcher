@@ -15,7 +15,7 @@ from dataclasses import dataclass, field
 from typing import Optional
 import yaml
 
-from daemonize import Daemonize
+from daemonize import Daemonizer
 
 
 @dataclass
@@ -365,13 +365,13 @@ def main():
     pidfile = args.pidfile or raw_config.get("pidfile", "/tmp/git_watcher.pid")
 
     if args.stop:
-        daemonizer = Daemonize(pidfile=pidfile)
+        daemonizer = Daemonizer(pidfile=pidfile)
         daemonizer.stop()
         sys.exit(0)
 
     if args.daemon:
         log_file = raw_config.get("log_file", "/tmp/git_watcher.log")
-        daemonizer = Daemonize(
+        daemonizer = Daemonizer(
             pidfile=pidfile,
             stdout=log_file,
             stderr=log_file,
